@@ -124,6 +124,7 @@ def show_items(content_type, podcast_id):
 
 @plugin.route('/<content_type>/podcast/items/<podcast_id>/<item_url>')
 def watch_item(content_type, podcast_id, item_url):
+    xbmc.sleep(1000)
     return plugin.set_resolved_url(item_url)
 
 
