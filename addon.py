@@ -176,6 +176,8 @@ def __get_content_type():
         content_type = sys.argv[2].split("=")
         if len(content_type) == 2:
             content_type = content_type[1]
+        else:
+            content_type = None
     return content_type
 
 def __add_podcasts(content_type, podcasts):
