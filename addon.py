@@ -38,10 +38,9 @@ STRINGS = {
     'no_media_found': 30007,
 }
 
-
 @plugin.route('/')
 def show_root():
-    content_type = plugin.request.args.get('content_type')
+    content_type = __get_content_type()
     if not content_type:
         url = plugin.url_for(endpoint='show_content_types')
         return plugin.redirect(url)
@@ -124,7 +123,6 @@ def show_items(content_type, podcast_id):
 
 @plugin.route('/<content_type>/podcast/items/<podcast_id>/<item_url>')
 def watch_item(content_type, podcast_id, item_url):
-    xbmc.sleep(1000)
     return plugin.set_resolved_url(item_url)
 
 
@@ -171,6 +169,14 @@ def search_result(content_type, search_string):
     )
     return __add_podcasts(content_type, podcasts)
 
+
+def __get_content_type():
+    content_type = plugin.request.args.get('content_type')
+    if not content_type:
+        content_type = sys.argv[2].split("=")
+        if len(content_type) == 2:
+            content_type = content_type[1]
+    return content_type
 
 def __add_podcasts(content_type, podcasts):
     my_podcasts_ids = my_podcasts.get(content_type, {}).keys()
